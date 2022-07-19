@@ -16,7 +16,6 @@ const AddProducts: React.FC = () => {
     productCost: number;
     quantity: number;
   }) {
-    console.log(values);
     makeRequest(
       {
         url: PRODUCTS_ROUTE,
@@ -47,8 +46,16 @@ const AddProducts: React.FC = () => {
               label={"Product Description"}
               name={"productDescription"}
             />
-            <SimpleInputField label={"Product Cost"} name={"productCost"} />
-            <SimpleInputField label={"Quantity"} name={"quantity"} />
+            <SimpleInputField
+              label={"Product Cost"}
+              name={"productCost"}
+              type={"number"}
+            />
+            <SimpleInputField
+              label={"Quantity"}
+              name={"quantity"}
+              type={"number"}
+            />
             <Button
               sx={{ my: 5 }}
               variant={"outline"}
