@@ -8,36 +8,14 @@ const data = {
   isNew: true,
 };
 
-interface RatingProps {
-  rating: number;
-  numReviews: string;
+interface QuantityProps {
+  quantity: number;
 }
 
-function Rating({ rating, numReviews }: RatingProps) {
+function Quantity({ quantity }: QuantityProps) {
   return (
-    <Box display="flex" alignItems="center">
-      {Array(5)
-        .fill("")
-        .map((_, i) => {
-          const roundedRating = Math.round(rating * 2) / 2;
-          if (roundedRating - i >= 1) {
-            return (
-              <BsStarFill
-                key={i}
-                style={{ marginLeft: "1" }}
-                color={i < rating ? "teal.500" : "gray.300"}
-              />
-            );
-          }
-          if (roundedRating - i > 0.3 && roundedRating - i < 0.7) {
-            return <BsStarHalf key={i} style={{ marginLeft: "1" }} />;
-          }
-          return <BsStar key={i} style={{ marginLeft: "1" }} />;
-        })}
-      <Box as="span" ml="2" color="gray.600" fontSize="sm">
-        {numReviews} review
-        {parseFloat(numReviews.split(",").join("")) > 1 && "s"}
-      </Box>
+    <Box as="span" ml="2" color="gray.600" fontSize="md">
+      {quantity} in Stock
     </Box>
   );
 }
@@ -84,32 +62,26 @@ function ProductCard({
         <Box p="6">
           <Box display="flex" justifyContent="center" alignItems="baseline">
             {data.isNew && (
-              <Badge rounded="full" px="2" fontSize="0.8em" colorScheme="red">
-                {"Product Label"}
-              </Badge>
+              <Box
+                fontSize="2xl"
+                fontWeight="semibold"
+                as="h4"
+                lineHeight="tight"
+              >
+                {productName}
+              </Box>
             )}
           </Box>
           <Flex mt="1" justifyContent="center" alignContent="center">
-            <Box
-              fontSize="2xl"
-              fontWeight="semibold"
-              as="h4"
-              lineHeight="tight"
-            >
-              {productName}
+            <Box fontSize="md" fontWeight="400" as="h4" lineHeight="tight">
+              {productDescription}
             </Box>
           </Flex>
           <Flex justifyContent="center" alignContent="center">
-            <Rating rating={5} numReviews={"1000"} />
+            <Quantity quantity={quantity} />
           </Flex>
         </Box>
-        <Tooltip
-          label="Add to cart"
-          bg="white"
-          placement={"top"}
-          color={"gray.800"}
-          fontSize={"1.2em"}
-        >
+        <Tooltip>
           <Box
             sx={{
               display: "flex",
@@ -126,7 +98,7 @@ function ProductCard({
               Purchase
             </Button>
             <Box fontSize="2xl" color={"gray.800"}>
-              {productCost}
+              ${productCost}
             </Box>
           </Box>
         </Tooltip>
