@@ -6,6 +6,7 @@ import (
 	"github.com/davidalvarez305/vending_machine/server/actions"
 	"github.com/davidalvarez305/vending_machine/server/database"
 	"github.com/davidalvarez305/vending_machine/server/models"
+	"github.com/davidalvarez305/vending_machine/server/types"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -26,7 +27,7 @@ func GetProducts(c *fiber.Ctx) error {
 }
 
 func CreateProduct(c *fiber.Ctx) error {
-	var body models.Product
+	var body types.Product
 
 	err := c.BodyParser(&body)
 
@@ -50,7 +51,7 @@ func CreateProduct(c *fiber.Ctx) error {
 }
 
 func UpdateProduct(c *fiber.Ctx) error {
-	var body models.Product
+	var body types.Product
 
 	err := c.BodyParser(&body)
 

@@ -7,20 +7,16 @@ interface NavBarProps {}
 export const NavBar: React.FC<NavBarProps> = ({}) => {
   const pages = [
     {
-      buttonText: "Dictionary",
-      destination: "dictionary",
-    },
-    {
       buttonText: "Home",
       destination: "",
     },
     {
-      buttonText: "Create Sentence",
-      destination: "/create-sentence",
+      buttonText: "Register",
+      destination: "register",
     },
     {
-      buttonText: "Generate",
-      destination: "/generate",
+      buttonText: "Inventory",
+      destination: "inventory",
     },
   ];
   return (

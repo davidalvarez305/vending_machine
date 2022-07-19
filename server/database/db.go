@@ -50,7 +50,7 @@ func Connect() {
 
 	fmt.Printf("Connected to Database.\n")
 
-	db.AutoMigrate(&models.Users{})
+	db.AutoMigrate(&models.Users{}, &models.Product{})
 
 	DB = db
 }

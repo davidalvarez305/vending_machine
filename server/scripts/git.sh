@@ -1,7 +1,7 @@
 #!/bin/bash
 
 cd
-cd code/content_go
+cd code/vending_machine
 git add .
 
 echo What changes did you make?
