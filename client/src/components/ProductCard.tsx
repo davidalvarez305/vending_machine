@@ -2,7 +2,6 @@ import { Box, Flex, Circle } from "@chakra-ui/layout";
 import { FiShoppingCart } from "react-icons/fi";
 import { Tooltip } from "@chakra-ui/tooltip";
 import { Button, Img } from "@chakra-ui/react";
-import { Product } from "../types/general";
 
 const data = {
   isNew: true,

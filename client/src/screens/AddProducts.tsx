@@ -7,7 +7,11 @@ import useFetch from "../hooks/useFetch";
 import Layout from "../layout/Layout";
 import { centeredDiv } from "../utils/centeredDiv";
 
-const AddProducts: React.FC = () => {
+interface Props {
+  setAddProducts: (value: React.SetStateAction<boolean>) => void;
+}
+
+const AddProducts: React.FC<Props> = ({ setAddProducts }) => {
   const { makeRequest, isLoading } = useFetch();
 
   function handleSubmit(values: {
@@ -40,7 +44,7 @@ const AddProducts: React.FC = () => {
         onSubmit={handleSubmit}
       >
         <Form>
-          <Box sx={{ ...centeredDiv }}>
+          <Box sx={{ ...centeredDiv, height: "75vh" }}>
             <SimpleInputField label={"Product Name"} name={"productName"} />
             <SimpleInputField
               label={"Product Description"}
@@ -69,6 +73,15 @@ const AddProducts: React.FC = () => {
           </Box>
         </Form>
       </Formik>
+      <Box>
+        <Button
+          variant={"outline"}
+          colorScheme={"teal"}
+          onClick={() => setAddProducts((prev) => !prev)}
+        >
+          Add Products
+        </Button>
+      </Box>
     </Layout>
   );
 };

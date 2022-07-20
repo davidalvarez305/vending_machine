@@ -40,38 +40,35 @@ const Inventory = () => {
   }
 
   if (addProducts) {
-    return <AddProducts />;
+    return <AddProducts setAddProducts={setAddProducts} />;
   }
 
   return (
-    <ChakraProvider theme={theme}>
-      <Layout>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100vh",
-            width: "100%",
-          }}
+    <Layout>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          width: "100%",
+        }}
+      >
+        {products.map((p) => (
+          <Box sx={{ ...centeredDiv, height: "75vh" }}>
+            <ProductCard {...p} onClick={() => handlePurchase(p)} />
+          </Box>
+        ))}
+      </Box>
+      <Box>
+        <Button
+          variant={"outline"}
+          colorScheme={"teal"}
+          onClick={() => setAddProducts((prev) => !prev)}
         >
-          {products.map((p) => (
-            <Box sx={{ ...centeredDiv, height: "50vh" }}>
-              <ProductCard {...p} onClick={() => handlePurchase(p)} />
-            </Box>
-          ))}
-        </Box>
-        <Box>
-          <Button
-            variant={"outline"}
-            colorScheme={"teal"}
-            onClick={() => setAddProducts((prev) => !prev)}
-          >
-            Add Products
-          </Button>
-        </Box>
-      </Layout>
-    </ChakraProvider>
+          Add Products
+        </Button>
+      </Box>
+    </Layout>
   );
 };
 
