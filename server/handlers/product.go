@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"strconv"
 
 	"github.com/davidalvarez305/vending_machine/server/actions"
@@ -37,6 +38,8 @@ func CreateProduct(c *fiber.Ctx) error {
 		})
 	}
 
+	fmt.Printf("%+v", body)
+
 	s, err := actions.Post(body)
 
 	if err != nil {
@@ -71,11 +74,11 @@ func UpdateProduct(c *fiber.Ctx) error {
 		})
 	}
 
-	prod := database.DB.Find(&products)
+	p := database.DB.Find(&products)
 
-	if prod.Error != nil {
+	if p.Error != nil {
 		return c.Status(500).JSON(fiber.Map{
-			"data": prod.Error,
+			"data": p.Error,
 		})
 	}
 
@@ -85,6 +88,8 @@ func UpdateProduct(c *fiber.Ctx) error {
 }
 
 func DeleteProduct(c *fiber.Ctx) error {
+	var products []models.Product
+
 	product := c.Query("product")
 
 	id, err := strconv.Atoi(product)
@@ -94,7 +99,7 @@ func DeleteProduct(c *fiber.Ctx) error {
 		})
 	}
 
-	s, err := actions.DeleteProduct(id)
+	_, err = actions.DeleteProduct(id)
 
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{
@@ -102,7 +107,15 @@ func DeleteProduct(c *fiber.Ctx) error {
 		})
 	}
 
-	return c.Status(204).JSON(fiber.Map{
-		"data": s,
+	p := database.DB.Find(&products)
+
+	if p.Error != nil {
+		return c.Status(500).JSON(fiber.Map{
+			"data": p.Error,
+		})
+	}
+
+	return c.Status(200).JSON(fiber.Map{
+		"data": products,
 	})
 }

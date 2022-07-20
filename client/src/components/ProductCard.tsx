@@ -2,6 +2,7 @@ import { Box, Flex, Circle } from "@chakra-ui/layout";
 import { FiShoppingCart } from "react-icons/fi";
 import { Tooltip } from "@chakra-ui/tooltip";
 import { Button, Img } from "@chakra-ui/react";
+import { AiFillDelete } from "react-icons/ai";
 
 const data = {
   isNew: true,
@@ -26,6 +27,7 @@ interface ProductCardProps {
   productCost: number;
   quantity: number;
   onClick?: () => void;
+  onDelete?: () => void;
 }
 
 function ProductCard({
@@ -35,6 +37,7 @@ function ProductCard({
   productCost,
   quantity,
   onClick,
+  onDelete,
 }: ProductCardProps) {
   const IMAGE_URL = ``;
 
@@ -49,13 +52,16 @@ function ProductCard({
         position="relative"
       >
         {data.isNew && (
-          <Circle
-            size="10px"
-            position="absolute"
-            top={2}
-            right={2}
-            bg="red.200"
-          />
+          <Box
+            sx={{
+              position: "absolute",
+              top: 2,
+              right: 2,
+              cursor: "pointer",
+            }}
+          >
+            <AiFillDelete size={25} color={"red"} onClick={onDelete} />
+          </Box>
         )}
 
         <Img src={IMAGE_URL} alt={"#"} roundedTop="lg" />

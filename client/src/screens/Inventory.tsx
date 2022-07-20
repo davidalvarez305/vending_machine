@@ -1,4 +1,4 @@
-import { ChakraProvider, Box, theme, Button } from "@chakra-ui/react";
+import { Box, Button } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
 import { PRODUCTS_ROUTE } from "../constants";
@@ -39,6 +39,18 @@ const Inventory = () => {
     );
   }
 
+  function handleDelete(id: number) {
+    makeRequest(
+      {
+        url: PRODUCTS_ROUTE + `/?product=${id}`,
+        method: "DELETE",
+      },
+      (res) => {
+        setProducts(res.data.data);
+      }
+    );
+  }
+
   if (addProducts) {
     return <AddProducts setAddProducts={setAddProducts} />;
   }
@@ -54,8 +66,12 @@ const Inventory = () => {
         }}
       >
         {products.map((p) => (
-          <Box sx={{ ...centeredDiv, height: "75vh" }}>
-            <ProductCard {...p} onClick={() => handlePurchase(p)} />
+          <Box sx={{ ...centeredDiv, height: "75vh" }} key={p.id}>
+            <ProductCard
+              {...p}
+              onClick={() => handlePurchase(p)}
+              onDelete={() => handleDelete(p.id)}
+            />
           </Box>
         ))}
       </Box>
