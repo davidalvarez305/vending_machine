@@ -51,6 +51,8 @@ func CreateProduct(c *fiber.Ctx) error {
 }
 
 func UpdateProduct(c *fiber.Ctx) error {
+	var products []models.Product
+
 	var body types.Product
 
 	err := c.BodyParser(&body)
@@ -61,7 +63,7 @@ func UpdateProduct(c *fiber.Ctx) error {
 		})
 	}
 
-	s, err := actions.Update(body)
+	_, err = actions.Update(body)
 
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{
@@ -69,8 +71,16 @@ func UpdateProduct(c *fiber.Ctx) error {
 		})
 	}
 
-	return c.Status(201).JSON(fiber.Map{
-		"data": s,
+	prod := database.DB.Find(&products)
+
+	if prod.Error != nil {
+		return c.Status(500).JSON(fiber.Map{
+			"data": prod.Error,
+		})
+	}
+
+	return c.Status(200).JSON(fiber.Map{
+		"data": products,
 	})
 }
 

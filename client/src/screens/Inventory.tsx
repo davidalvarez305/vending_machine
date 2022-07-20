@@ -23,6 +23,22 @@ const Inventory = () => {
     );
   }, []);
 
+  function handlePurchase(values: Product) {
+    makeRequest(
+      {
+        url: PRODUCTS_ROUTE,
+        method: "PUT",
+        data: {
+          ...values,
+          quantity: values.quantity - 1,
+        },
+      },
+      (res) => {
+        setProducts(res.data.data);
+      }
+    );
+  }
+
   if (addProducts) {
     return <AddProducts />;
   }
@@ -41,7 +57,7 @@ const Inventory = () => {
         >
           {products.map((p) => (
             <Box sx={{ ...centeredDiv, height: "50vh" }}>
-              <ProductCard {...p} />
+              <ProductCard {...p} onClick={() => handlePurchase(p)} />
             </Box>
           ))}
         </Box>

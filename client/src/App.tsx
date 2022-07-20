@@ -32,7 +32,7 @@ export const App = () => {
           }}
         >
           {products.map((p) => (
-            <ProductCard {...p} />
+            <ProductCard {...p} onClick={() => console.log(p)} />
           ))}
         </Box>
       </Layout>

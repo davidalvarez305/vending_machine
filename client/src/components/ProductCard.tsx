@@ -1,8 +1,8 @@
-import { BsStar, BsStarFill, BsStarHalf } from "react-icons/bs";
-import { Box, Flex, Circle, Badge } from "@chakra-ui/layout";
+import { Box, Flex, Circle } from "@chakra-ui/layout";
 import { FiShoppingCart } from "react-icons/fi";
 import { Tooltip } from "@chakra-ui/tooltip";
 import { Button, Img } from "@chakra-ui/react";
+import { Product } from "../types/general";
 
 const data = {
   isNew: true,
@@ -26,6 +26,7 @@ interface ProductCardProps {
   productDescription: string;
   productCost: number;
   quantity: number;
+  onClick?: () => void;
 }
 
 function ProductCard({
@@ -34,6 +35,7 @@ function ProductCard({
   productDescription,
   productCost,
   quantity,
+  onClick,
 }: ProductCardProps) {
   const IMAGE_URL = ``;
 
@@ -94,6 +96,7 @@ function ProductCard({
               leftIcon={<FiShoppingCart />}
               colorScheme="blue"
               variant="outline"
+              onClick={onClick}
             >
               Purchase
             </Button>
