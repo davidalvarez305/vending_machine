@@ -40,6 +40,7 @@ export default function useAuth() {
       },
       (res) => {
         if (res.data.data.user) {
+          console.log(res.data.data);
           setUser(res.data.data.user);
         }
       }

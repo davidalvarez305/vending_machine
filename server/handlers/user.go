@@ -1,6 +1,8 @@
 package handlers
 
 import (
+	"encoding/gob"
+	"fmt"
 	"os"
 
 	"github.com/davidalvarez305/vending_machine/server/actions"
@@ -32,7 +34,7 @@ func CreateUser(c *fiber.Ctx) error {
 
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{
-			"error": "Error hashing password",
+			"error": err,
 		})
 	}
 
@@ -53,24 +55,27 @@ func CreateUser(c *fiber.Ctx) error {
 }
 
 func GetUser(c *fiber.Ctx) error {
+	var user models.Users
+	gob.Register(user)
 	sess, err := sessions.Sessions.Get(c)
 
 	if err != nil {
+		fmt.Printf("%+v", err)
 		return c.Status(500).JSON(fiber.Map{
 			"data": "Unable to retrieve cookie.",
 		})
 	}
 
-	k := sess.Get(os.Getenv("COOKIE_NAME"))
+	u := sess.Get("user")
 
-	if k == nil {
+	if u == nil {
 		return c.Status(404).JSON(fiber.Map{
 			"data": "Not found.",
 		})
 	}
 
 	return c.Status(200).JSON(fiber.Map{
-		"data": k,
+		"data": u,
 	})
 }
 
@@ -105,6 +110,7 @@ func Logout(c *fiber.Ctx) error {
 func Login(c *fiber.Ctx) error {
 	var u types.Users
 	var user models.Users
+	gob.Register(user)
 	err := c.BodyParser(&u)
 
 	if err != nil {
@@ -129,8 +135,6 @@ func Login(c *fiber.Ctx) error {
 		})
 	}
 
-	id := sessions.Sessions.KeyGenerator()
-
 	sess, err := sessions.Sessions.Get(c)
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{
@@ -138,15 +142,17 @@ func Login(c *fiber.Ctx) error {
 		})
 	}
 
-	sess.Set(os.Getenv("COOKIE_NAME"), id)
+	sess.Set("user", user)
 
-	if err := sess.Save(); err != nil {
+	err = sess.Save()
+
+	if err != nil {
 		return c.Status(500).JSON(fiber.Map{
 			"data": err,
 		})
 	}
 
 	return c.Status(200).JSON(fiber.Map{
-		"data": id,
+		"data": user,
 	})
 }

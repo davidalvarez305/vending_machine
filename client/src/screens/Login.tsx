@@ -12,10 +12,12 @@ import LoginForm from "../forms/Login";
 import { LOGIN_ROUTE } from "../constants";
 import LoginOrRegister from "../components/LoginOrRegister";
 import { Formik } from "formik";
+import { useNavigate } from "react-router";
 
 const LoginScreen = () => {
   const { isLoading, makeRequest } = useFetch();
   const [loginError, setLoginError] = useState({ message: "" });
+  const navigate = useNavigate();
 
   return (
     <Flex minH={"100vh"} align={"top"} justify={"center"}>
@@ -45,8 +47,10 @@ const LoginScreen = () => {
                   data: values,
                 },
                 async (data) => {
-                  if (data.data.data.Detail) {
-                    setLoginError({ message: data.data.data.Detail });
+                  if (data.data.error) {
+                    setLoginError({ message: data.data.error });
+                  } else {
+                    navigate("/");
                   }
                 }
               );
