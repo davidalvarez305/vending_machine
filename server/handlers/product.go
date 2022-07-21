@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"strconv"
 
 	"github.com/davidalvarez305/vending_machine/server/actions"
@@ -72,8 +71,6 @@ func UpdateProduct(c *fiber.Ctx) error {
 			"data": "Unable to Parse Request Body.",
 		})
 	}
-
-	fmt.Printf("%+v", body)
 
 	_, err = actions.Update(body)
 

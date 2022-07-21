@@ -1,6 +1,7 @@
 import { ChakraProvider, Box, theme } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import ProductCard from "./components/ProductCard";
+import { ProductsGrid } from "./components/ProductsGrid";
 import { PRODUCTS_ROUTE } from "./constants";
 import useFetch from "./hooks/useFetch";
 import Layout from "./layout/Layout";
@@ -18,23 +19,35 @@ export const App = () => {
         setProducts(res.data.data);
       }
     );
+    // eslint-disable-line react-hooks/exhaustive-deps
   }, []);
+
+  function handlePurchase(values: Product) {
+    makeRequest(
+      {
+        url: PRODUCTS_ROUTE,
+        method: "PUT",
+        data: {
+          ...values,
+          quantity: values.quantity - 1,
+        },
+      },
+      (res) => {
+        setProducts(res.data.data);
+      }
+    );
+  }
+
   return (
     <ChakraProvider theme={theme}>
       <Layout>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100vh",
-            width: "100%",
-          }}
-        >
+        <ProductsGrid>
           {products.map((p) => (
-            <ProductCard {...p} onClick={() => console.log(p)} />
+            <div key={p.id}>
+              <ProductCard {...p} onClick={() => handlePurchase(p)} />
+            </div>
           ))}
-        </Box>
+        </ProductsGrid>
       </Layout>
     </ChakraProvider>
   );

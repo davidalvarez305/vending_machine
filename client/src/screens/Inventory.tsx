@@ -1,6 +1,7 @@
 import { Box, Button } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
+import { ProductsGrid } from "../components/ProductsGrid";
 import { PRODUCTS_ROUTE } from "../constants";
 import useFetch from "../hooks/useFetch";
 import Layout from "../layout/Layout";
@@ -22,6 +23,7 @@ const Inventory = () => {
         setProducts(res.data.data);
       }
     );
+    // eslint-disable-line react-hooks/exhaustive-deps
   }, []);
 
   function handlePurchase(values: Product) {
@@ -74,16 +76,9 @@ const Inventory = () => {
 
   return (
     <Layout>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          width: "100%",
-        }}
-      >
+      <ProductsGrid>
         {products.map((p) => (
-          <Box sx={{ ...centeredDiv, height: "75vh" }} key={p.id}>
+          <Box key={p.id}>
             <ProductCard
               {...p}
               onClick={() => handlePurchase(p)}
@@ -92,7 +87,7 @@ const Inventory = () => {
             />
           </Box>
         ))}
-      </Box>
+      </ProductsGrid>
       <Box>
         <Button
           variant={"outline"}
