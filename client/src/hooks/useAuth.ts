@@ -10,7 +10,7 @@ export default function useAuth() {
     username: "",
     password: "",
     email: "",
-    api_key: null,
+    is_admin: false,
   };
   const [user, setUser] = useState<User>(userProps);
 

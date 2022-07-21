@@ -1,10 +1,12 @@
-import { Box } from "@chakra-ui/react";
-import React from "react";
+import { Box, Button } from "@chakra-ui/react";
+import React, { useContext } from "react";
+import { UserContext } from "../context/UserContext";
 import { NavButton } from "./NavButton";
 
 interface NavBarProps {}
 
 export const NavBar: React.FC<NavBarProps> = ({}) => {
+  const ctx = useContext(UserContext);
   const pages = [
     {
       buttonText: "Home",
@@ -34,6 +36,15 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
           <NavButton {...page} />
         </React.Fragment>
       ))}
+      {ctx?.user.id && (
+        <Button
+          colorScheme={"pink"}
+          variant={"outline"}
+          onClick={() => ctx?.Logout()}
+        >
+          Logout
+        </Button>
+      )}
     </Box>
   );
 };

@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/davidalvarez305/vending_machine/server/actions"
@@ -15,8 +14,7 @@ import (
 
 func CreateUser(c *fiber.Ctx) error {
 	var u types.Users
-	var user types.UserRequestBody
-	err := c.BodyParser(&user)
+	err := c.BodyParser(&u)
 
 	if err != nil {
 		return c.Status(400).JSON(fiber.Map{
@@ -24,30 +22,28 @@ func CreateUser(c *fiber.Ctx) error {
 		})
 	}
 
-	if user.Password == "" || user.Username == "" {
+	if u.Password == "" || u.Username == "" {
 		return c.Status(400).JSON(fiber.Map{
 			"data": "Missing Fields.",
 		})
 	}
 
-	hashedPassword, err3 := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(u.Password), bcrypt.DefaultCost)
 
-	if err3 != nil {
+	if err != nil {
 		return c.Status(500).JSON(fiber.Map{
 			"error": "Error hashing password",
 		})
 	}
 
-	u.Username = user.Username
 	u.Password = string(hashedPassword)
+	u.IsAdmin = false
 
-	fmt.Printf("User %v", u)
+	data, err := actions.Post(u)
 
-	data, err2 := actions.Post(u)
-
-	if err2 != nil {
+	if err != nil {
 		return c.Status(500).JSON(fiber.Map{
-			"data": "Unable to Create User.",
+			"data": err,
 		})
 	}
 
@@ -97,7 +93,7 @@ func Logout(c *fiber.Ctx) error {
 
 	if err := sess.Destroy(); err != nil {
 		return c.Status(500).JSON(fiber.Map{
-			"data": "Unable to destroy session.",
+			"data": err,
 		})
 	}
 
@@ -107,7 +103,7 @@ func Logout(c *fiber.Ctx) error {
 }
 
 func Login(c *fiber.Ctx) error {
-	var u types.UserRequestBody
+	var u types.Users
 	var user models.Users
 	err := c.BodyParser(&u)
 
@@ -138,7 +134,7 @@ func Login(c *fiber.Ctx) error {
 	sess, err := sessions.Sessions.Get(c)
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{
-			"data": "Unable to get cookie.",
+			"data": err,
 		})
 	}
 
@@ -146,7 +142,7 @@ func Login(c *fiber.Ctx) error {
 
 	if err := sess.Save(); err != nil {
 		return c.Status(500).JSON(fiber.Map{
-			"data": "Unable to save session.",
+			"data": err,
 		})
 	}
 

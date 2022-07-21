@@ -1,20 +1,26 @@
 import { Box, Button } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import ProductCard from "../components/ProductCard";
 import { ProductsGrid } from "../components/ProductsGrid";
 import { PRODUCTS_ROUTE } from "../constants";
+import { UserContext } from "../context/UserContext";
 import useFetch from "../hooks/useFetch";
 import Layout from "../layout/Layout";
 import { Product } from "../types/general";
-import { centeredDiv } from "../utils/centeredDiv";
 import AddProducts from "./AddProducts";
 
 const Inventory = () => {
+  const ctx = useContext(UserContext);
+  const navigate = useNavigate();
   const { makeRequest } = useFetch();
   const [products, setProducts] = useState<Product[]>([]);
   const [addProducts, setAddProducts] = useState(false);
   const [editProduct, setEditProduct] = useState<Product>();
   useEffect(() => {
+    if (!ctx?.user.isAdmin) {
+      navigate("/");
+    }
     makeRequest(
       {
         url: PRODUCTS_ROUTE,

@@ -3,6 +3,7 @@ export type User = {
   username: string;
   password: string;
   email: string;
+  is_admin: boolean;
 };
 
 export type Product = {

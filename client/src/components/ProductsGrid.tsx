@@ -10,9 +10,10 @@ export const ProductsGrid: React.FC<Props> = ({ children }) => {
     <Box
       sx={{
         display: "grid",
-        gridTemplateColumns: "400px 400px",
+        gridTemplateColumns: "1fr 1fr",
+        gridTemplateRows: "30vh",
         height: "75vh",
-        width: "100%",
+        width: "50%",
       }}
     >
       {children}
