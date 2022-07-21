@@ -5,13 +5,22 @@ import SimpleInputField from "../components/SimpleInputField";
 import { PRODUCTS_ROUTE } from "../constants";
 import useFetch from "../hooks/useFetch";
 import Layout from "../layout/Layout";
+import { Product } from "../types/general";
 import { centeredDiv } from "../utils/centeredDiv";
 
 interface Props {
-  setAddProducts: (value: React.SetStateAction<boolean>) => void;
+  setToggle: () => void;
+  setProducts: React.Dispatch<React.SetStateAction<Product[]>>;
+  values?: Product;
+  method?: "PUT";
 }
 
-const AddProducts: React.FC<Props> = ({ setAddProducts }) => {
+const AddProducts: React.FC<Props> = ({
+  setToggle,
+  setProducts,
+  values,
+  method,
+}) => {
   const { makeRequest, isLoading } = useFetch();
 
   function handleSubmit(values: {
@@ -23,11 +32,11 @@ const AddProducts: React.FC<Props> = ({ setAddProducts }) => {
     makeRequest(
       {
         url: PRODUCTS_ROUTE,
-        method: "POST",
+        method: method ? method : "POST",
         data: values,
       },
       (res) => {
-        console.log(res.data.data);
+        setProducts(res.data.data);
       }
     );
   }
@@ -36,10 +45,12 @@ const AddProducts: React.FC<Props> = ({ setAddProducts }) => {
     <Layout>
       <Formik
         initialValues={{
-          productName: "",
-          productDescription: "",
-          productCost: 0,
-          quantity: 0,
+          productName: values?.productName ? values?.productName : "",
+          productDescription: values?.productDescription
+            ? values?.productDescription
+            : "",
+          productCost: values?.productCost ? values?.productCost : 0,
+          quantity: values?.quantity ? values?.quantity : 0,
         }}
         onSubmit={handleSubmit}
       >
@@ -68,18 +79,14 @@ const AddProducts: React.FC<Props> = ({ setAddProducts }) => {
               loadingText={"Submitting"}
               type={"submit"}
             >
-              Add
+              {method ? "Update" : "Add"}
             </Button>
           </Box>
         </Form>
       </Formik>
       <Box>
-        <Button
-          variant={"outline"}
-          colorScheme={"teal"}
-          onClick={() => setAddProducts((prev) => !prev)}
-        >
-          Add Products
+        <Button variant={"outline"} colorScheme={"teal"} onClick={setToggle}>
+          Inventory
         </Button>
       </Box>
     </Layout>

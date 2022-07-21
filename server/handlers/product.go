@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"strconv"
 
 	"github.com/davidalvarez305/vending_machine/server/actions"
@@ -28,6 +27,7 @@ func GetProducts(c *fiber.Ctx) error {
 }
 
 func CreateProduct(c *fiber.Ctx) error {
+	var products []models.Product
 	var body types.Product
 
 	err := c.BodyParser(&body)
@@ -38,9 +38,7 @@ func CreateProduct(c *fiber.Ctx) error {
 		})
 	}
 
-	fmt.Printf("%+v", body)
-
-	s, err := actions.Post(body)
+	_, err = actions.Post(body)
 
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{
@@ -48,8 +46,16 @@ func CreateProduct(c *fiber.Ctx) error {
 		})
 	}
 
-	return c.Status(201).JSON(fiber.Map{
-		"data": s,
+	p := database.DB.Find(&products)
+
+	if p.Error != nil {
+		return c.Status(500).JSON(fiber.Map{
+			"data": p.Error,
+		})
+	}
+
+	return c.Status(200).JSON(fiber.Map{
+		"data": products,
 	})
 }
 

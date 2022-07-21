@@ -16,7 +16,7 @@ export const NavButton: React.FC<NavButtonProps> = ({
     <Button
       variant={"outline"}
       colorScheme={"cyan"}
-      onClick={() => navigate(destination)}
+      onClick={() => navigate("../" + destination)}
       size={"md"}
     >
       {buttonText}

@@ -12,6 +12,7 @@ const Inventory = () => {
   const { makeRequest } = useFetch();
   const [products, setProducts] = useState<Product[]>([]);
   const [addProducts, setAddProducts] = useState(false);
+  const [editProduct, setEditProduct] = useState<Product>();
   useEffect(() => {
     makeRequest(
       {
@@ -52,7 +53,23 @@ const Inventory = () => {
   }
 
   if (addProducts) {
-    return <AddProducts setAddProducts={setAddProducts} />;
+    return (
+      <AddProducts
+        setToggle={() => setAddProducts((prev) => !prev)}
+        setProducts={setProducts}
+      />
+    );
+  }
+
+  if (editProduct) {
+    return (
+      <AddProducts
+        setToggle={() => setEditProduct(undefined)}
+        setProducts={setProducts}
+        values={editProduct}
+        method={"PUT"}
+      />
+    );
   }
 
   return (
@@ -71,6 +88,7 @@ const Inventory = () => {
               {...p}
               onClick={() => handlePurchase(p)}
               onDelete={() => handleDelete(p.id)}
+              onEdit={() => setEditProduct(p)}
             />
           </Box>
         ))}
