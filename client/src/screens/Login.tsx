@@ -23,7 +23,7 @@ const LoginScreen = () => {
         <Stack align={"center"}>
           <Heading fontSize={"4xl"}>Login</Heading>
           <Text fontSize={"lg"} color={"gray.600"}>
-            To the moon 🚀😎💻
+            Vending Machine Project 🚀💻
           </Text>
         </Stack>
         <Box
@@ -45,8 +45,8 @@ const LoginScreen = () => {
                   data: values,
                 },
                 async (data) => {
-                  if (data.data.data.error) {
-                    setLoginError({ message: data.data.data.error });
+                  if (data.data.data.Detail) {
+                    setLoginError({ message: data.data.data.Detail });
                   }
                 }
               );

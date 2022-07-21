@@ -1,0 +1,24 @@
+version: '3.7'
+
+services:
+  server:
+    build: ./server
+    restart: always
+    env_file:
+      - .env
+    image: iamdavidmiguelalvarez/vending_machine:server
+    ports:
+    - "4010:4010"
+  postgres:
+    build: ./postgres
+    restart: always
+    env_file:
+      - .env
+    image: iamdavidmiguelalvarez/vending_machine:postgres
+    volumes:
+    - static_data:/var/lib/postgresql/data/pgdata/
+    ports:
+      - "5432:5432"
+
+volumes:
+  static_data:

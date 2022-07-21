@@ -4,7 +4,7 @@ import { User } from "../types/general";
 import useFetch from "./useFetch";
 
 export default function useAuth() {
-  const { makeRequest } = useFetch();
+  const { makeRequest, isLoading } = useFetch();
   let userProps = {
     id: null,
     username: "",
@@ -46,5 +46,5 @@ export default function useAuth() {
     );
   }, []);
 
-  return { Login, Logout, user };
+  return { Login, Logout, user, isLoading };
 }

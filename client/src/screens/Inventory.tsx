@@ -18,7 +18,7 @@ const Inventory = () => {
   const [addProducts, setAddProducts] = useState(false);
   const [editProduct, setEditProduct] = useState<Product>();
   useEffect(() => {
-    if (!ctx?.user.isAdmin) {
+    if (!ctx?.user.is_admin) {
       navigate("/");
     }
     makeRequest(

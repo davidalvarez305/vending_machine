@@ -24,7 +24,7 @@ export default function Register() {
         <Stack align={"center"}>
           <Heading fontSize={"4xl"}>Create An Account</Heading>
           <Text fontSize={"lg"} color={"gray.600"}>
-            To the moon 🚀😎💻
+            Vending Machine Project 🚀💻
           </Text>
         </Stack>
         <Box
@@ -54,8 +54,8 @@ export default function Register() {
                   data: values,
                 },
                 async (data) => {
-                  if (data.data.data.error) {
-                    setRegisterError({ message: data.data.data.error });
+                  if (data.data.data.Detail) {
+                    setRegisterError({ message: data.data.data.Detail });
                   }
                   if (data.data.data.user) {
                     ctx?.Login(data.data.data.user);
