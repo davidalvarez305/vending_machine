@@ -24,6 +24,7 @@ const AddProducts: React.FC<Props> = ({
   const { makeRequest, isLoading } = useFetch();
 
   function handleSubmit(values: {
+    id: number | undefined;
     productName: string;
     productDescription: string;
     productCost: number;
@@ -45,6 +46,7 @@ const AddProducts: React.FC<Props> = ({
     <Layout>
       <Formik
         initialValues={{
+          id: values?.id ? values?.id : undefined,
           productName: values?.productName ? values?.productName : "",
           productDescription: values?.productDescription
             ? values?.productDescription
@@ -56,6 +58,14 @@ const AddProducts: React.FC<Props> = ({
       >
         <Form>
           <Box sx={{ ...centeredDiv, height: "75vh" }}>
+            {method && (
+              <SimpleInputField
+                label={"Product Id"}
+                name={"id"}
+                type={"number"}
+                readOnly={true}
+              />
+            )}
             <SimpleInputField label={"Product Name"} name={"productName"} />
             <SimpleInputField
               label={"Product Description"}
