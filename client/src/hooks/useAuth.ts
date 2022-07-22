@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router";
 import { LOGOUT_ROUTE, ME_ROUTE } from "../constants";
 import { User } from "../types/general";
 import useFetch from "./useFetch";
 
 export default function useAuth() {
   const { makeRequest } = useFetch();
+  const navigate = useNavigate();
   let userProps = {
     id: null,
     username: "",
@@ -27,24 +29,27 @@ export default function useAuth() {
       (res) => {
         if (res.data.data === "Logged out!") {
           setUser(userProps);
+          navigate("../login");
         }
       }
     );
   }
 
-  useEffect(() => {
+  function isLoggedIn() {
     makeRequest(
       {
         url: `${ME_ROUTE}`,
         method: "GET",
       },
       (res) => {
-        if (res.data.data.id) {
+        if (!res.data.data.id) {
+          navigate("../login");
+        } else {
           setUser(res.data.data);
         }
       }
     );
-  }, []);
+  }
 
-  return { Login, Logout, user };
+  return { Login, Logout, user, isLoggedIn };
 }

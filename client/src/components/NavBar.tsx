@@ -3,18 +3,12 @@ import React, { useContext } from "react";
 import { UserContext } from "../context/UserContext";
 import { NavButton } from "./NavButton";
 
-interface NavBarProps {}
-
-export const NavBar: React.FC<NavBarProps> = ({}) => {
+export const NavBar: React.FC = () => {
   const ctx = useContext(UserContext);
   const pages = [
     {
       buttonText: "Home",
       destination: "",
-    },
-    {
-      buttonText: "Register",
-      destination: "register",
     },
     {
       buttonText: "Inventory",

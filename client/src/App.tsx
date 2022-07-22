@@ -1,18 +1,20 @@
 import { ChakraProvider, theme } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ProductCard from "./components/ProductCard";
 import { ProductsGrid } from "./components/ProductsGrid";
 import { PRODUCTS_ROUTE } from "./constants";
+import { UserContext } from "./context/UserContext";
 import useFetch from "./hooks/useFetch";
-import useLoginRequired from "./hooks/useLoginRequired";
 import Layout from "./layout/Layout";
 import { Product } from "./types/general";
 
 export const App = () => {
-  useLoginRequired();
+  const ctx = useContext(UserContext);
+
   const { makeRequest } = useFetch();
   const [products, setProducts] = useState<Product[]>([]);
   useEffect(() => {
+    ctx?.isLoggedIn();
     makeRequest(
       {
         url: PRODUCTS_ROUTE,
