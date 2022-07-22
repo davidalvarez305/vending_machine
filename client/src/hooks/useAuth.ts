@@ -4,7 +4,8 @@ import { User } from "../types/general";
 import useFetch from "./useFetch";
 
 export default function useAuth() {
-  const { makeRequest, isLoading } = useFetch();
+  const { makeRequest } = useFetch();
+  const [isLoading, setIsLoading] = useState(true);
   let userProps = {
     id: null,
     username: "",
@@ -39,12 +40,15 @@ export default function useAuth() {
         method: "GET",
       },
       (res) => {
-        if (res.data.data.user) {
-          console.log(res.data.data);
-          setUser(res.data.data.user);
+        console.log(`Response: `, res.data.data);
+        if (res.data.data.id) {
+          setUser(res.data.data);
         }
+        setIsLoading(false);
       }
     );
+    console.log(`isLoading: ${isLoading}`);
+    console.log(`User: `, user);
   }, []);
 
   return { Login, Logout, user, isLoading };

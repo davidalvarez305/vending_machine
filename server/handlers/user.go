@@ -3,7 +3,6 @@ package handlers
 import (
 	"encoding/gob"
 	"fmt"
-	"os"
 
 	"github.com/davidalvarez305/vending_machine/server/actions"
 	"github.com/davidalvarez305/vending_machine/server/database"
@@ -80,19 +79,13 @@ func GetUser(c *fiber.Ctx) error {
 }
 
 func Logout(c *fiber.Ctx) error {
-
+	var user models.Users
+	gob.Register(user)
 	sess, err := sessions.Sessions.Get(c)
+
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{
-			"data": "Unable to get cookie.",
-		})
-	}
-
-	k := sess.Get(os.Getenv("COOKIE_NAME"))
-
-	if k == nil {
-		return c.Status(404).JSON(fiber.Map{
-			"error": "Not found.",
+			"data": err,
 		})
 	}
 
