@@ -38,6 +38,7 @@ const AddProducts: React.FC<Props> = ({
       },
       (res) => {
         setProducts(res.data.data);
+        setToggle();
       }
     );
   }

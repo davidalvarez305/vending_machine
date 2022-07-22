@@ -14,6 +14,7 @@ export const ProductsGrid: React.FC<Props> = ({ children }) => {
         gridTemplateRows: "30vh",
         height: "75vh",
         width: "50%",
+        overflow: "scroll",
       }}
     >
       {children}
