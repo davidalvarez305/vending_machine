@@ -5,7 +5,7 @@ services:
     build: ./server
     restart: always
     env_file:
-      - ./server/env
+      - ./server/.env
     image: iamdavidmiguelalvarez/vending_machine:server
     ports:
     - "4011:4010"
@@ -13,7 +13,7 @@ services:
     build: ./postgres
     restart: always
     env_file:
-      - ./server/env
+      - ./server/.env
     image: iamdavidmiguelalvarez/vending_machine:postgres
     volumes:
     - static_data:/var/lib/postgresql/data/pgdata/
