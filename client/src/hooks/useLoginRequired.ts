@@ -1,14 +1,23 @@
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router";
-import { UserContext } from "../context/UserContext";
+import { ME_ROUTE } from "../constants";
+import useFetch from "./useFetch";
 
 export default function useLoginRequired() {
   const navigate = useNavigate();
-  const ctx = useContext(UserContext);
+  const { makeRequest } = useFetch();
 
   useEffect(() => {
-    if (!ctx?.user.id && !ctx?.isLoading) {
-      navigate("/login");
-    }
-  }, [ctx]);
+    makeRequest(
+      {
+        url: `${ME_ROUTE}`,
+        method: "GET",
+      },
+      (res) => {
+        if (!res.data.data.id) {
+          navigate("../login");
+        }
+      }
+    );
+  }, []);
 }

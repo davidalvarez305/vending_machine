@@ -6,7 +6,6 @@ interface ContextValue {
   Login: (user: User) => void;
   Logout: () => void;
   user: User;
-  isLoading: boolean;
 }
 
 export const UserContext = createContext<ContextValue | null>(null);
@@ -16,9 +15,9 @@ interface ProviderProps {
 }
 
 const UserProvider: React.FC<ProviderProps> = ({ children }) => {
-  const { Login, Logout, user, isLoading } = useAuth();
+  const { Login, Logout, user } = useAuth();
   return (
-    <UserContext.Provider value={{ Login, Logout, user, isLoading }}>
+    <UserContext.Provider value={{ Login, Logout, user }}>
       {children}
     </UserContext.Provider>
   );
